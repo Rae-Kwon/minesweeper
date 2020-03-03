@@ -31,21 +31,13 @@ function startGame () {
 
   }
 
-  /*Resets board when size change is selected
-  const boardSizeRadio = document.getElementsByName("size");
-  for (let i = 0; i < boardSizeRadio.length; i++) {
-    boardSizeRadio[i].addEventListener("click", resetBoard);
-  }*/
-
   //Reset game board when reset button is pressed
   const reset = document.querySelector("#reset")
   reset.addEventListener("click", resetBoard);
 
   //Reset board when difficulty is selected
   const difficultySelect = document.getElementById("difficulty");
-  difficultySelect.addEventListener("change", () => {
-    resetBoard();
-  });
+  difficultySelect.addEventListener("change", resetBoard);
 
   document.addEventListener("click", checkForWin);
   document.addEventListener("contextmenu", checkForWin);
@@ -66,11 +58,13 @@ function changeDifficulty(event) {
   const difficulty = document.querySelector("#difficulty").value;
 
   if (difficulty === "4") {
-    return Math.random() < 0.3125;
+    return Math.random() < 0.30;
   } else if (difficulty === "5") {
-    return Math.random() < 0.24;
+    return Math.random() < 0.50;
+  } else if (difficulty === "6") {
+    return Math.random() < 0.70;
   } else {
-    return Math.random() < 0.1944;
+    return Math.random() < 0.50;
   }
   
 }
@@ -84,6 +78,7 @@ function checkForWin () {
   // You can use this function call to declare a winner (once you've
   // detected that they've won, that is!)
   //   lib.displayMessage('You win!')
+
   for (cell in board.cells) {
     if (board.cells[cell].isMine && !board.cells[cell].isMarked) {
       return
