@@ -3,8 +3,7 @@ document.addEventListener('DOMContentLoaded', startGame)
 // Define your `board` object here!
 const board = {};
 function createBoard() {
-  const boardSize = Number(document.querySelector("input[name='size']:checked").value);
-  console.log(boardSize)
+  const boardSize = Number(document.querySelector("#difficulty").value);
   
   board.cells = [];
   for(let i = 0; i < boardSize; i++) {
@@ -12,7 +11,7 @@ function createBoard() {
       board.cells.push({
         row: i,
         col: j,
-        isMine: Math.random() < 0.1,
+        isMine: changeDifficulty(),
         hidden: true
       })
     }
@@ -32,17 +31,21 @@ function startGame () {
 
   }
 
-  //Resets board when size change is selected
+  /*Resets board when size change is selected
   const boardSizeRadio = document.getElementsByName("size");
   for (let i = 0; i < boardSizeRadio.length; i++) {
     boardSizeRadio[i].addEventListener("click", resetBoard);
-  }
+  }*/
 
   //Reset game board when reset button is pressed
   const reset = document.querySelector("#reset")
   reset.addEventListener("click", resetBoard);
 
-  //Change difficulty
+  //Reset board when difficulty is selected
+  const difficultySelect = document.getElementById("difficulty");
+  difficultySelect.addEventListener("change", () => {
+    resetBoard();
+  });
 
   document.addEventListener("click", checkForWin);
   document.addEventListener("contextmenu", checkForWin);
@@ -59,8 +62,17 @@ function resetBoard() {
   startGame();
 }
 
-function changeDifficulty() {
+function changeDifficulty(event) {
+  const difficulty = document.querySelector("#difficulty").value;
 
+  if (difficulty === "4") {
+    return Math.random() < 0.3125;
+  } else if (difficulty === "5") {
+    return Math.random() < 0.24;
+  } else {
+    return Math.random() < 0.1944;
+  }
+  
 }
 
 // Define this function to look for a win condition:
