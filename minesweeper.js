@@ -3,9 +3,12 @@ document.addEventListener('DOMContentLoaded', startGame)
 // Define your `board` object here!
 const board = {};
 function createBoard() {
+  const boardSize = Number(document.querySelector("input[name='size']:checked").value);
+  console.log(boardSize)
+  
   board.cells = [];
-  for(let i = 0; i < 5; i++) {
-    for(let j = 0; j < 5; j++) {
+  for(let i = 0; i < boardSize; i++) {
+    for(let j = 0; j < boardSize; j++) {
       board.cells.push({
         row: i,
         col: j,
@@ -14,24 +17,38 @@ function createBoard() {
       })
     }
   }
-  console.log(board);
-  return board;
 }
 
 function startGame () {
 
-  const board = createBoard();
+  createBoard();
 
   for (let i = 0; i < board.cells.length; i++) {
     board.cells[i].surroundingMines = countSurroundingMines(board.cells[i]);
 
   }
 
+  const boardSizeRadio = document.getElementsByName("size");
+  for (let i = 0; i < boardSizeRadio.length; i++) {
+    boardSizeRadio[i].addEventListener("click", resetBoard);
+  }
+
+  const reset = document.querySelector("#reset")
+  reset.addEventListener("click", resetBoard);
+
   document.addEventListener("click", checkForWin);
   document.addEventListener("contextmenu", checkForWin);
 
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
+}
+
+function resetBoard() {
+  //Reset existing board
+  document.getElementsByClassName("board")[0].innerHTML = ""
+
+  //Start new game
+  startGame();
 }
 
 // Define this function to look for a win condition:
@@ -43,7 +60,6 @@ function checkForWin () {
   // You can use this function call to declare a winner (once you've
   // detected that they've won, that is!)
   //   lib.displayMessage('You win!')
-
   for (cell in board.cells) {
     if (board.cells[cell].isMine && !board.cells[cell].isMarked) {
       return
@@ -73,4 +89,3 @@ function countSurroundingMines (cell) {
   }
   return count;
 }
-
