@@ -18,11 +18,13 @@ body {
 
 #message {
   font-size: 1.5rem;
+  order: 1;
 }
 
 .board {
   display: flex;
   flex-wrap: wrap;
+  order: 2;
 }
 
 .board div {
@@ -57,4 +59,12 @@ div.hidden:hover {
 
 div.marked, div.marked:hover {
   background: no-repeat center/60% url("images/mark.svg") deepskyblue;
+}
+
+div.resetBtn {
+  order: 3;
+}
+
+div.changeDifficulty {
+  order: 1;
 }
