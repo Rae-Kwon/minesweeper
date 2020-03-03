@@ -20,21 +20,29 @@ function createBoard() {
 }
 
 function startGame () {
-
+  //Create game board
   createBoard();
 
+  //Re-enable click on game board after win
+  document.querySelector(".board").style.pointerEvents = "auto";
+
+  //Check for surrounding mines
   for (let i = 0; i < board.cells.length; i++) {
     board.cells[i].surroundingMines = countSurroundingMines(board.cells[i]);
 
   }
 
+  //Resets board when size change is selected
   const boardSizeRadio = document.getElementsByName("size");
   for (let i = 0; i < boardSizeRadio.length; i++) {
     boardSizeRadio[i].addEventListener("click", resetBoard);
   }
 
+  //Reset game board when reset button is pressed
   const reset = document.querySelector("#reset")
   reset.addEventListener("click", resetBoard);
+
+  //Change difficulty
 
   document.addEventListener("click", checkForWin);
   document.addEventListener("contextmenu", checkForWin);
@@ -49,6 +57,10 @@ function resetBoard() {
 
   //Start new game
   startGame();
+}
+
+function changeDifficulty() {
+
 }
 
 // Define this function to look for a win condition:
@@ -67,6 +79,9 @@ function checkForWin () {
       return
     }
   }
+
+  document.querySelector(".board").style.pointerEvents = "none";
+
   return lib.displayMessage('You win!');
 }
 
